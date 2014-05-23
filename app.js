@@ -4,7 +4,8 @@ var favicon = require('static-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-
+var cons = require('consolidate');
+var game = require('./routes/game');
 var routes = require('./routes/index');
 //var users = require('./routes/users');
 
@@ -23,6 +24,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
+app.use('/game', game);
 //app.use('/users', users);
 
 /// catch 404 and forwarding to error handler
