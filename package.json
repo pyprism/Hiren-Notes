@@ -1,0 +1,25 @@
+{
+  "name": "hiren-todo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pyprism/Hiren-TODO.git"
+  },
+  "author": "pyprism",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/pyprism/Hiren-TODO/issues"
+  },
+  "homepage": "https://github.com/pyprism/Hiren-TODO#readme",
+  "dependencies": {
+    "express": "^4.15.3"
+  },
+  "devDependencies": {
+    "nodemon": "^1.11.0"
+  }
+}
