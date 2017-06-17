@@ -24,7 +24,7 @@
     "express": "^4.15.3",
     "helmet": "^3.6.1",
     "install": "^0.10.1",
-    "jwt-simple": "^0.5.1",
+    "jsonwebtoken": "^7.4.1",
     "morgan": "^1.8.2",
     "npm": "^5.0.1",
     "sequelize": "^3.30.4",
