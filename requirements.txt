@@ -2,8 +2,10 @@ contextlib2==0.5.5
 Django==1.11.4
 django-cacheops==3.2.1
 djangorestframework==3.6.3
+freezegun==0.3.9
 funcy==1.8
 psycopg2==2.7.3
+python-dateutil==2.6.1
 pytz==2017.2
 raven==6.1.0
 redis==2.10.5
