@@ -22,5 +22,6 @@ router.register(r'notes', views.NotesViewset)
 
 urlpatterns = [
     url(r'^api/auth/', views.login),
+    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^api/', include(router.urls)),
 ]
