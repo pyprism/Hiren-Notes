@@ -7,6 +7,8 @@ from .models import Notes
 from rest_framework.authtoken.models import Token
 from django.contrib import auth
 from django.http import JsonResponse
+from rest_framework import status
+from rest_framework.response import Response
 
 
 def login(request):
@@ -21,9 +23,9 @@ def login(request):
         user = auth.authenticate(username=username, password=password)
         if user:
             token = Token.objects.get_or_create(user=user)
-            return JsonResponse({'token': str(token[0])})
+            return JsonResponse({'token': str(token[0])}, status=status.HTTP_200_OK)
         else:
-            return JsonResponse({'error': 'Username/Password is not valid'})
+            return JsonResponse({'error': 'Username/Password is not valid'}, status=status.HTTP_401_UNAUTHORIZED)
 
 
 class NotesViewset(viewsets.ModelViewSet):
