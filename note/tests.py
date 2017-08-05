@@ -35,3 +35,18 @@ class NotesViewTest(TransactionTestCase):
     # def test_return_correct_note(self):
     #     response = self.client.get('/api/notes/1/')
     #     print(response.json())
+
+
+class LoginViewTest(TestCase):
+
+    def setUp(self):
+        self.client = APIClient()
+        self.user = User.objects.create_user('hiren', 'a@b.com', 'password')
+
+    def test_login_failed(self):
+        response = self.client.post('/api/auth/', {'username': 'hire', 'password': 'password'})
+        self.assertEqual(response.json(), {'error': 'Username/Password is not valid'})
+
+    def test_login_success(self):
+        response = self.client.post('/api/auth/', {'username': 'hiren', 'password': 'password'})
+        self.assertEqual(response.status_code, 200)
