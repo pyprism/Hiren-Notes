@@ -21,5 +21,6 @@ router = routers.DefaultRouter()
 router.register(r'notes', views.NotesViewset)
 
 urlpatterns = [
+    url(r'^api/auth/', views.login),
     url(r'^api/', include(router.urls)),
 ]
