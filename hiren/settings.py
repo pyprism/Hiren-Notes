@@ -273,3 +273,6 @@ REST_FRAMEWORK = {
     ),
 }
 
+# add create-react-app directory
+
+REACT_APP_DIR = os.path.join(BASE_DIR, 'bunny')
