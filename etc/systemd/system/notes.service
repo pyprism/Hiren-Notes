@@ -2,7 +2,11 @@
 Description=uWSGI instance to serve Hiren-Notes
 
 [Service]
-ExecStart=/bin/bash -c 'su prism; cd /home/prism/prod/Hiren-Notes; source .env/bin/activate; uwsgi --enable-threads --ini notes.ini'
+ExecStart=/bin/bash -c 'su prism; cd /home/prism/prod/Hiren-Notes; source .env/bin/activate; uwsgi --memory-report --enable-threads --ini notes.ini'
+
+ExecReload=/bin/bash -c 'su prism; cd /home/prism/prod/Hiren-Notes; source .env/bin/activate; uwsgi --reload /run/notes.pid'
+
+ExecStop=/bin/bash -c ''su prism; cd /home/prism/prod/Hiren-Notes; source .env/bin/activate; uwsgi --stop /run/notes.pid'
 
 [Install]
 WantedBy=multi-user.target
