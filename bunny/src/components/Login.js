@@ -5,10 +5,10 @@ import ReactDOM from 'react-dom';
 export default class Login extends React.Component {
     render() {
         return(
-            <div>
+            <div className="login-box">
                 <div className="logo">
-                    <a href="javascript:void(0);">Admin<b>BSB</b></a>
-                    <small>Admin BootStrap Based - Material Design</small>
+                    <a href="javascript:void(0);">Hiren<b> Notes</b></a>
+                    <small>Simple cross platform note taking apps </small>
                 </div>
                 <div className="card">
                     <div className="body">
