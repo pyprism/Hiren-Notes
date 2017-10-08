@@ -24,13 +24,13 @@ export default class Login extends React.Component {
 
     handleSubmit(event) {
         event.preventDefault();
+        let params = new URLSearchParams();   // credit https://stackoverflow.com/a/46628495/2566671
+        params.append("username", this.state.username);
+        params.append("password", this.state.password);
         axios({
             method: "post",
             url: "/api/auth/",
-            data : {
-                "username": this.state.username,
-                "password": this.state.password
-            }
+            data : params
         }).then(function (response) {
             console.log(response);
         }).catch(function(error){
