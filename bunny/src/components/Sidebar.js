@@ -1,6 +1,6 @@
 import {Link} from "react-router-dom";
 
-export default Sidebar = () => {
+export default const Sidebar = (props) => {
     return (
         <div className="overlay">
             <div className="search-bar">
@@ -22,9 +22,7 @@ export default Sidebar = () => {
                     </div>
                     <div className="collapse navbar-collapse" id="navbar-collapse">
                         <ul className="nav navbar-nav navbar-right">
-                            <!-- Call Search -->
                             <li><Link href="javascript:void(0);" className="js-search" data-close="true"><i className="material-icons">search</i></Link></li>
-                            <!-- #END# Call Search -->
                         </ul>
                     </div>
                 </div>
