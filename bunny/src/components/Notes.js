@@ -6,10 +6,10 @@ export default class Notes extends React.Component {
     render() {
         return (
             <div>
-                <Sidebar/>
                 <Helmet>
                     <title>Hiren-Notes: All Notes</title>
                 </Helmet>
+                <Sidebar/>
                 <section className="content">
                     <div className="container-fluid">
                         Notes
