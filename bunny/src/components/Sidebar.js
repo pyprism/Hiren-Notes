@@ -1,29 +1,17 @@
 import {Link} from "react-router-dom";
+import React from "react";
 
-export default const Sidebar = (props) => {
+
+const Sidebar = () => {
     return (
-        <div className="overlay">
-            <div className="search-bar">
-                <div className="search-icon">
-                    <i className="material-icons">search</i>
-                </div>
-                <input type="text" placeholder="search note by title" />
-                <div className="close-search">
-                    <i className="material-icons">close</i>
-                </div>
-            </div>
-
+        <div>
+        <div className="overlay" />
             <nav className="navbar">
                 <div className="container-fluid">
                     <div className="navbar-header">
-                        <Link to="javascript:void(0);" className="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false"/>
-                        <Link to="javascript:void(0);" className="bars"/>
+                        <a href="javascript:void(0);" className="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false"/>
+                        <a href="javascript:void(0);" className="bars"/>
                         <Link className="navbar-brand" to="/" >Hiren Notes</Link>
-                    </div>
-                    <div className="collapse navbar-collapse" id="navbar-collapse">
-                        <ul className="nav navbar-nav navbar-right">
-                            <li><Link href="javascript:void(0);" className="js-search" data-close="true"><i className="material-icons">search</i></Link></li>
-                        </ul>
                     </div>
                 </div>
             </nav>
@@ -56,3 +44,5 @@ export default const Sidebar = (props) => {
         </div>
     );
 }
+
+export default Sidebar;
