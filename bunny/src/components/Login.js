@@ -18,6 +18,14 @@ export default class Login extends React.Component {
         this.setState({username: event.target.value});
     }
 
+    componentWillMount() {
+        document.body.classList.add("login-page");
+    }
+
+    componentWillUnmount() {
+        document.body.classList.remove("login-page");
+    }
+
     handlePasswordChange(event){
         this.setState({password: event.target.value});
     }
@@ -43,44 +51,42 @@ export default class Login extends React.Component {
         const {username, password} = this.state;
 
         return(
-            <div className="login-page">
-                <div className="login-box">
-                    <Helmet>
-                        <title>Hiren-Notes: Login</title>
-                    </Helmet>
-                    <div className="logo">
-                        <a href="javascript:void(0);">Hiren<b> Notes</b></a>
-                        <small>Simple cross platform note taking apps </small>
-                    </div>
-                    <div className="card">
-                        <div className="body">
-                            <form id="sign_in" onSubmit={this.handleSubmit.bind(this)}>
-                                <div className="msg">Sign in to start your session</div>
-                                <div className="input-group">
+            <div className="login-box">
+                <Helmet>
+                    <title>Hiren-Notes: Login</title>
+                </Helmet>
+                <div className="logo">
+                    <a href="javascript:void(0);">Hiren<b> Notes</b></a>
+                    <small>Simple cross platform note taking apps </small>
+                </div>
+                <div className="card">
+                    <div className="body">
+                        <form id="sign_in" onSubmit={this.handleSubmit.bind(this)}>
+                            <div className="msg">Sign in to start your session</div>
+                            <div className="input-group">
                         <span className="input-group-addon">
                             <i className="material-icons">person</i>
                         </span>
-                                    <div className="form-line">
-                                        <input type="text" className="form-control" onChange={this.handleUsernameChange.bind(this)} value={username} placeholder="Username" required autoFocus/>
-                                    </div>
+                                <div className="form-line">
+                                    <input type="text" className="form-control" onChange={this.handleUsernameChange.bind(this)} value={username} placeholder="Username" required autoFocus/>
                                 </div>
-                                <div className="input-group">
+                            </div>
+                            <div className="input-group">
                         <span className="input-group-addon">
                             <i className="material-icons">lock</i>
                         </span>
-                                    <div className="form-line">
-                                        <input type="password" className="form-control" value={password} onChange={this.handlePasswordChange.bind(this)} placeholder="Password" required />
+                                <div className="form-line">
+                                    <input type="password" className="form-control" value={password} onChange={this.handlePasswordChange.bind(this)} placeholder="Password" required />
+                                </div>
+                            </div>
+                            <div className="row">
+                                <div className="col-sm-12">
+                                    <div className="center-block">
+                                        <button className="btn btn-block bg-pink waves-effect" type="submit">SIGN IN</button>
                                     </div>
                                 </div>
-                                <div className="row">
-                                    <div className="col-sm-12">
-                                        <div className="center-block">
-                                            <button className="btn btn-block bg-pink waves-effect" type="submit">SIGN IN</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
