@@ -8,7 +8,7 @@ funcy==1.9
 psycopg2==2.7.3
 python-dateutil==2.6.1
 pytz==2017.2
-raven==6.2.1
+raven==6.3.0
 redis==2.10.6
 six==1.11.0
 uWSGI==2.0.15
