@@ -2,6 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {Helmet} from "react-helmet";
 import axios from "axios";
+import swal from "sweetalert2";
+import { Redirect } from "react-router";
 
 
 export default class Login extends React.Component {
@@ -40,9 +42,10 @@ export default class Login extends React.Component {
             url: "/api/auth/",
             data : params
         }).then(function (response) {
-            console.log(response);
+            sessionStorage.setItem("token", response.data["token"]);
+            <Redirect to="/notebook" />
         }).catch(function(error){
-            console.error(error.response.data["error"]);
+            swal("Opps..", error.response.data["error"], "error");
         })
     }
 
@@ -57,7 +60,7 @@ export default class Login extends React.Component {
                 </Helmet>
                 <div className="logo">
                     <a href="javascript:void(0);">Hiren<b> Notes</b></a>
-                    <small>Simple cross platform note taking apps </small>
+                    <small>Simple Cross Platform Note Taking Apps </small>
                 </div>
                 <div className="card">
                     <div className="body">
