@@ -18,6 +18,7 @@ from rest_framework import routers
 from note import views
 
 router = routers.DefaultRouter()
+router.register(r'notebook', views.NoteBookViewset)
 router.register(r'notes', views.NotesViewset)
 
 urlpatterns = [
