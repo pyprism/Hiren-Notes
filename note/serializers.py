@@ -43,5 +43,20 @@ class NotesSerializer(serializers.ModelSerializer):
             hiren = Notes.objects.create(note_book=notebook_obj, **validated_data)
         return hiren
 
+    def update(self, instance, validated_data):
+        notebook_name = validated_data.get('movie', {}).get('name')
+        if notebook_name != instance.note_book.name:
+            instance.note_book.name = notebook_name
+        instance.title = validated_data.get('title', instance.title)
+        instance.content = validated_data.get('content', instance.content)
+        instance.encrypted = validated_data.get('encrypted', instance.encrypted)
+        instance.iv = validated_data.get('iv', instance.iv)
+        instance.salt = validated_data.get('salt', instance.salt)
+        instance.synced_desktop = validated_data.get('synced_desktop', instance.synced_desktop)
+        instance.synced_mobile = validated_data.get('synced_mobile', instance.synced_mobile)
+        instance.unique_id = validated_data.get('unique_id', instance.unique_id)
+        instance.note_book.save()
+        instance.save()
+        return instance
 
 
