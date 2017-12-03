@@ -65,6 +65,12 @@ class NotesViewset(viewsets.ModelViewSet):
     queryset = Notes.objects.all()
     serializer_class = NotesSerializer
 
+    def list(self, request, *args, **kwargs):
+        user = self.request.user
+        query = Notes.objects.filter(user=user)
+        serializer = NotesSerializer(query, many=True)
+        return Response(serializer.data)
+
 
 class NoteBookViewset(viewsets.ModelViewSet):
     authentication_classes = (CsrfExemptSessionAuthentication, BasicAuthentication)
