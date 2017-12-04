@@ -6,6 +6,7 @@ class NoteBookSerializer(serializers.ModelSerializer):
     user = serializers.HiddenField(
         default=serializers.CurrentUserDefault()
     )
+    unique_id = serializers.ReadOnlyField()
 
     class Meta:
         model = NoteBook
@@ -35,16 +36,14 @@ class NotesSerializer(serializers.ModelSerializer):
         notebook_data = validated_data.pop('note_book')
         notebook = NoteBook.objects.filter(name=notebook_data['name'])
         if notebook.exists():
-            print('hit')
             hiren = Notes.objects.create(note_book=notebook[0], **validated_data)
         else:
-            print('hot')
             notebook_obj = NoteBook.objects.create(**notebook_data)
             hiren = Notes.objects.create(note_book=notebook_obj, **validated_data)
         return hiren
 
     def update(self, instance, validated_data):
-        notebook_name = validated_data.get('movie', {}).get('name')
+        notebook_name = validated_data.get('note_book', {}).get('name')
         if notebook_name != instance.note_book.name:
             instance.note_book.name = notebook_name
         instance.title = validated_data.get('title', instance.title)
