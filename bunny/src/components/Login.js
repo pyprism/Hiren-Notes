@@ -1,9 +1,7 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import React from "react";
 import {Helmet} from "react-helmet";
 import axios from "axios";
 import swal from "sweetalert2";
-import { Redirect } from "react-router";
 
 
 export default class Login extends React.Component {
@@ -43,10 +41,11 @@ export default class Login extends React.Component {
             data : params
         }).then(function (response) {
             sessionStorage.setItem("token", response.data["token"]);
-            <Redirect to="/notebook" />
-        }).catch(function(error){
+            this.props.history.push("/notebook");
+        }.bind(this)).catch(function(error){
+            console.error(error);
             swal("Opps..", error.response.data["error"], "error");
-        })
+        });
     }
 
     render() {
