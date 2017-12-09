@@ -19,7 +19,13 @@ const Sidebar = () => {
                 <aside id="leftsidebar" className="sidebar">
                     <div className="menu">
                         <ul className="list">
-                            <li className="active">
+                            <li >
+                                <Link to="/notebook">
+                                    <i className="material-icons">book</i>
+                                    <span>Note Book</span>
+                                </Link>
+                            </li>
+                             <li >
                                 <Link to="/notes">
                                     <i className="material-icons">note</i>
                                     <span>Notes</span>
