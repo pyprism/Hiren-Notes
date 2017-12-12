@@ -1,4 +1,4 @@
-from rest_framework.authentication import SessionAuthentication, BasicAuthentication
+from rest_framework.authentication import SessionAuthentication, BasicAuthentication, TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from django.contrib.auth.models import User
 from rest_framework import viewsets
@@ -60,7 +60,7 @@ class NotesViewset(viewsets.ModelViewSet):
     """
         API endpoint that allows notes to be created, viewed ,edited and deleted.
     """
-    authentication_classes = (CsrfExemptSessionAuthentication, BasicAuthentication)
+    authentication_classes = (CsrfExemptSessionAuthentication, BasicAuthentication, TokenAuthentication)
     permission_classes = (IsAuthenticated,)
     queryset = Notes.objects.all()
     serializer_class = NotesSerializer
@@ -73,7 +73,7 @@ class NotesViewset(viewsets.ModelViewSet):
 
 
 class NoteBookViewset(viewsets.ModelViewSet):
-    authentication_classes = (CsrfExemptSessionAuthentication, BasicAuthentication)
+    authentication_classes = (CsrfExemptSessionAuthentication, BasicAuthentication, TokenAuthentication)
     permission_classes = (IsAuthenticated,)
     queryset = NoteBook.objects.all()
     serializer_class = NoteBookSerializer
