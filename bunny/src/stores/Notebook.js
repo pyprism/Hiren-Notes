@@ -1,6 +1,7 @@
 import { observable, action, computed, autorun } from 'mobx';
 import axios from 'axios';
 import moment from "moment";
+import { toJS } from "mobx";
 
 
 export class Notebook {
@@ -15,13 +16,13 @@ export class Notebook {
             url: "/api/notebook/",
             headers: {"Authorization": "Token " + sessionStorage.getItem("token")}
         }).then(action("response action", (response) =>{
-            console.log(response);
             (response.data).map(function (notebook) {
                 let hiren = {};
                 hiren["id"] = notebook["id"];
                 hiren["name"] = notebook["name"];
                 hiren["created_at"] = moment.utc(notebook["created_at"]).local().format("dddd, DD MMMM YYYY hh:mm:ss A");
                 this.notebook.push(hiren);
+                console.log(toJS(this.notebook));
             }.bind(this));
             this.loaded = true;
         })).catch(function (error) {
