@@ -75,7 +75,7 @@ ROOT_URLCONF = 'hiren.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ['templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -118,7 +118,7 @@ else:
             'ATOMIC_REQUESTS': True,
             'CONN_MAX_AGE': 600,
             }
-}
+    }
 
 
 # Password validation
