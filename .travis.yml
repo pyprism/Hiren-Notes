@@ -8,7 +8,7 @@ services:
   - redis-server
 
 addons:
-  postgresql: "9.4"
+  postgresql: "9.5"
 
 env:
   - DEBUG=True
@@ -23,7 +23,8 @@ before_script:
 script:
   - python manage.py migrate
   - python manage.py test
-  - coverage run --source='.' manage.py test
+  - coverage run --source=api manage.py test
+  - coverage run --source=note manage.py test
 
 after_success:
 - coveralls
