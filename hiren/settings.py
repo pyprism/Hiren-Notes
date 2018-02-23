@@ -39,7 +39,6 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
-    'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -49,6 +48,7 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'note',
     'corsheaders',
+    'compressor',
     'api'
 ]
 
@@ -158,6 +158,21 @@ USE_TZ = False
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
+
+STATICFILES_FINDERS = (
+    "django.contrib.staticfiles.finders.FileSystemFinder",
+    "django.contrib.staticfiles.finders.AppDirectoriesFinder",
+    'compressor.finders.CompressorFinder',
+)
+
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, "static"),
+)
+
+# django compress
+COMPRESS_ROOT = os.path.join(BASE_DIR, "static")
+
+COMPRESS_OFFLINE = True
 
 # logger
 
