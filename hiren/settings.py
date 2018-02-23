@@ -69,6 +69,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 ROOT_URLCONF = 'hiren.urls'
@@ -299,3 +300,13 @@ REACT_APP_DIR = os.path.join(BASE_DIR, 'bunny')
 
 # cors
 CORS_ORIGIN_ALLOW_ALL = True
+
+# Login settings
+LOGIN_URL = '/'
+
+# django-debug-toolbar
+
+INTERNAL_IPS = ['127.0.0.1']
+
+# custom user model
+AUTH_USER_MODEL = 'base.Account'
