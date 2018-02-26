@@ -50,7 +50,8 @@ INSTALLED_APPS = [
     'note',
     'corsheaders',
     'compressor',
-    'api'
+    'api',
+    'base'
 ]
 
 if DEBUG is False:
