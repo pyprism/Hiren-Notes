@@ -2,7 +2,7 @@ from django.test import TestCase, TransactionTestCase
 from note.models import Notes, NoteBook
 from django.utils import timezone
 from rest_framework.test import APIRequestFactory, APIClient
-from django.contrib.auth.models import User
+from hiren.settings import AUTH_USER_MODEL as User
 from freezegun import freeze_time
 import uuid
 from unittest.mock import patch
@@ -18,7 +18,7 @@ class NotesViewTest(TransactionTestCase):
     # @patch.object(uuid, 'uuid4', side_effect=TEST_UUID)
     def setUp(self):
         self.client = APIClient()
-        self.user = User.objects.create_user('hiren', 'a@b.com', 'password')
+        self.user = User.objects.create_user('hiren', 'password')
         self.client.force_authenticate(user=self.user)
         self.TEST_UUID = '2e49f1f0-e17b-4876-9beb-4d9b539683d8'
         with patch.object(uuid, 'uuid4', side_effect=self.TEST_UUID):
@@ -42,7 +42,7 @@ class LoginViewTest(TestCase):
 
     def setUp(self):
         self.client = APIClient()
-        self.user = User.objects.create_user('hiren', 'a@b.com', 'password')
+        self.user = User.objects.create_user('hiren', 'password')
 
     def test_login_failed(self):
         response = self.client.post('/api/auth/', {'username': 'hire', 'password': 'password'})
