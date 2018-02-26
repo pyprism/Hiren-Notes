@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Notes, NoteBook
+from note.models import Notes, NoteBook
 
 
 class NoteBookSerializer(serializers.ModelSerializer):
