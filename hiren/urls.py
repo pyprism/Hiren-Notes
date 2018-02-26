@@ -13,17 +13,9 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
-from django.conf.urls import url, include
-from rest_framework import routers
-from note import views
-
-router = routers.DefaultRouter()
-router.register(r'notebook', views.NoteBookViewset)
-router.register(r'notes', views.NotesViewset)
+from django.urls import include, path
+from api import urls as api
 
 urlpatterns = [
-    url(r'^api/auth/', views.login),
-    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-    url(r'^api/', include(router.urls)),
-    url(r'^', views.BunnyAppView.as_view()),
+    path('/api/', include(api))
 ]
