@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import User
+from hiren.settings import AUTH_USER_MODEL as User
 import uuid
 
 
