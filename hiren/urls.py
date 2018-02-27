@@ -13,9 +13,17 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
-from django.urls import include, path
+from django.urls import include, path, re_path
 from api import urls as api
+from django.conf import settings
 
 urlpatterns = [
-    path('/api/', include(api))
+    path('api/', include(api))
 ]
+
+if settings.DEBUG:
+    import debug_toolbar
+    urlpatterns += [
+        re_path(r'^__debug__/', include(debug_toolbar.urls)),
+]
+
