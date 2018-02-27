@@ -19,8 +19,6 @@ class Notes(models.Model):
     encrypted = models.BooleanField(default=False)
     iv = models.CharField(max_length=500, blank=True, null=True)
     salt = models.CharField(max_length=1000, blank=True, null=True)
-    synced_desktop = models.BooleanField(default=False)
-    synced_mobile = models.BooleanField(default=False)
     unique_id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
