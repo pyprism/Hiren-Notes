@@ -9,8 +9,8 @@ router.register(r'notes', views.NotesViewset)
 urlpatterns = [
     path('auth/', views.login),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-    path('/', include(router.urls)),
-    path('', views.BunnyAppView.as_view()),
+    path('', include(router.urls)),
+    # path('', views.BunnyAppView.as_view()),
 ]
 
 
