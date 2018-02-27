@@ -30,7 +30,7 @@ class NotesSerializer(serializers.ModelSerializer):
     class Meta:
         model = Notes
         fields = ('id', 'note_book', 'title', 'content', 'encrypted', 'iv',
-                  'salt', 'synced_desktop', 'synced_mobile', 'unique_id', 'created_at', 'updated_at', 'user')
+                  'salt', 'unique_id', 'created_at', 'updated_at', 'user')
 
     def create(self, validated_data):
         notebook_data = validated_data.pop('note_book')
