@@ -311,3 +311,10 @@ INTERNAL_IPS = ['127.0.0.1']
 
 # custom user model
 AUTH_USER_MODEL = 'base.Account'
+
+# secure cookie and biscuit :P
+if not DEBUG:
+    SECURE_SSL_REDIRECT = True
+    CSRF_COOKIE_SECURE = True
+    SESSION_COOKIE_SECURE = True
+
