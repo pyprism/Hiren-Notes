@@ -14,14 +14,14 @@ def login(request):
     :return:
     """
     if request.user.is_authenticated:
-        return redirect('inbox')
+        return redirect('secret_code')
     if request.method == "POST":
         username = request.POST.get('username')
         password = request.POST.get('password')
         user = auth.authenticate(username=username, password=password)
         if user:
             auth.login(request, user)
-            return redirect('inbox')
+            return redirect('secret_code')
         else:
             messages.warning(request, 'Username/Password is not valid!')
             return redirect('login')
@@ -30,8 +30,13 @@ def login(request):
 
 
 def signup(request):
+    """
+    Handles signup
+    :param request:
+    :return:
+    """
     if request.user.is_authenticated:
-        return redirect('inbox')
+        return redirect('secret_code')
     if request.method == "POST":
         sign_up, created = Setting.objects.get_or_create(task='S')
         if sign_up.active:
@@ -50,5 +55,11 @@ def signup(request):
         return redirect('signup')
     else:
         return render(request, 'base/signup.html')
+
+
+@login_required
+def secret_code(request):
+    return render(request, 'base/secret_code.html')
+
 
 
