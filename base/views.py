@@ -43,7 +43,7 @@ def signup(request):
             except IntegrityError:
                 messages.warning(request, "Username is not available!")
                 return redirect('signup')
-            messages.success(request, 'Account created successfully!')
+            messages.success(request, 'Account has been created successfully!')
             return redirect('login')
         else:
             messages.warning(request, 'Signup is disabled!')
