@@ -4,7 +4,7 @@ from django.contrib.auth.hashers import make_password
 from django.contrib import auth
 from django.contrib import messages
 from django.db.utils import IntegrityError
-from .models import Account
+from .models import Account, Setting
 
 
 def login(request):
