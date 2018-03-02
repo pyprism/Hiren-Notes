@@ -16,10 +16,12 @@ Including another URLconf
 from django.urls import include, path, re_path
 from api import urls as api
 from base import urls as base
+from note import urls as note
 from django.conf import settings
 
 urlpatterns = [
     path('', include(base)),
+    path('notebook/', include(note)),
     path('api/', include(api))
 ]
 
