@@ -17,8 +17,9 @@ def notebook(request):
 
 @login_required
 def notebook_create(request):
-    notebooks = NoteBook.objects.all()  # TODO pagination
-    data = serializers.serialize('json', notebooks)
-    return HttpResponse(data, content_type='application/json')
+    if request.META.get('HTTP_ACCEPT').startswith("text/html"):
+        return render(request, 'note/notebook_create.html')
+    elif request.content_type == 'application/json':
+        pass
 
 
