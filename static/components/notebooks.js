@@ -2,6 +2,23 @@ import React from "react";
 import ReactDOM from "react-dom";
 class Notebooks extends React.Component {
 
+    constructor(props){
+        super(props);
+        this.loadData();
+    }
+
+    loadData() {
+        $.ajax("/notebook/", {
+            contentType: "application/json",
+            success: function(data) {
+                console.log(data);
+            },
+            error: function(data) {
+                console.error(data);
+            }
+        });
+    }
+
     render() {
         return (
             <div className="row clearfix">
@@ -9,7 +26,7 @@ class Notebooks extends React.Component {
                     <div className="card">
                         <div className="header">
                             <h2>
-                                Basic Card Title <small>Description text here...</small>
+                                Basic Card Title
                             </h2>
                         </div>
                         <div className="body">
