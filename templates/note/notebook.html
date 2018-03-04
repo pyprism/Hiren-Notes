@@ -2,19 +2,16 @@
 {% block title %} Notebooks {% endblock %}
 {% block content %}
 <section class="content">
-        <div class="container-fluid">
-            <div class="row clearfix">
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <div class="card">
-                        <div class="header">
-                            <h2>
-                                Notebook's List
-                            </h2>
-                        </div>
-                        <div id="notebooks"></div>
-                    </div>
-                </div>
-            </div>
+    <div class="container-fluid">
+        <div class="block-header">
+            <h2>Notebooks  <a href="{% url 'notebook_create' %}"><button class="btn btn-info m-t-12 waves-effect pull-right">
+                <i class="material-icons">create</i>
+                <span>Create new notebook</span></button></a></h2>
         </div>
+        <!-- Basic Card -->
+        <div class="row clearfix">
+            <div id="notebooks"></div>
+        </div>
+    </div>
 </section>
 {% endblock %}
