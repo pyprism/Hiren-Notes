@@ -1,13 +1,20 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-sdfcfdvdfg
-<script>
-    console.log(localStorage.getItem("key"));
-</script>
-</body>
-</html>
+{% extends "base.html" %}
+{% block title %} Notebooks {% endblock %}
+{% block content %}
+<section class="content">
+        <div class="container-fluid">
+            <div class="row clearfix">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="card">
+                        <div class="header">
+                            <h2>
+                                Notebook's List
+                            </h2>
+                        </div>
+                        <div id="notebooks"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+</section>
+{% endblock %}
