@@ -6,6 +6,8 @@ import uuid
 class NoteBook(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.TextField()
+    description = models.TextField()
+    description_salt = models.CharField(max_length=1000, blank=True, null=True)
     encrypted = models.BooleanField(default=False)
     iv = models.CharField(max_length=500, blank=True, null=True)
     salt = models.CharField(max_length=1000, blank=True, null=True)
