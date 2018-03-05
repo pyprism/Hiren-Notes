@@ -9,7 +9,8 @@ class NotebookCreate extends React.Component {
         this.state = {
             name: "",
             description: "",
-            encryption: false
+            encryption: false,
+            success: false
         }
     }
 
@@ -22,7 +23,45 @@ class NotebookCreate extends React.Component {
     }
 
     handleEncryptionChange(event){
-        this.setState({encryption: event.target.value});
+        this.setState({encryption: !this.state.encryption});
+    }
+
+    handleSubmit(event){
+        event.preventDefault();
+        let csrfcookie = function() {
+            let cookieValue = null,
+                name = "csrftoken";
+            if (document.cookie && document.cookie !== "") {
+                let cookies = document.cookie.split(";");
+                for (let i = 0; i < cookies.length; i++) {
+                    let cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) == (name + "=")) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        };
+        if(!this.state.encryption){
+            $.ajax({
+                type: "POST",
+                beforeSend: function(request, settings) {
+                    if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
+                        request.setRequestHeader("X-CSRFToken", csrfcookie());
+                    }
+                },
+                url: "/notebook/create/",
+                data: {
+                    "name": this.state.name,
+                    "description": this.state.description,
+                    "encrypted": this.state.encryption
+                },
+                success: function (data) {
+                    console.log(data);
+                }
+            });
+        }
     }
 
     render() {
@@ -30,7 +69,7 @@ class NotebookCreate extends React.Component {
         const {name, description, encryption} = this.state;
 
         return(
-            <form className="form-horizontal">
+            <form className="form-horizontal" onSubmit={this.handleSubmit.bind(this)}>
                 <div className="row clearfix">
                     <div className="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
                         <label>Name</label>
@@ -57,14 +96,23 @@ class NotebookCreate extends React.Component {
                 </div>
                 <div className="row clearfix">
                     <div className="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
-                        <label htmlFor="encryption">Encryption</label>
+                        <label>Encryption</label>
                     </div>
                     <div className="col-lg-10 col-md-10 col-sm-8 col-xs-7">
-                        <div className="form-grou">
-                            <div className="form-lin">
-                                <input id='encryption' type="checkbox" required value={encryption} onChange={this.handleEncryptionChange.bind(this)} className="filled-in"/>
+                        <div className="form-group">
+                            <div className="checkbox-inline">
+                                <input id='encryption' type="checkbox" defaultChecked={encryption} onChange={this.handleEncryptionChange.bind(this)} className="filled-in"/>
+                                <label htmlFor="encryption">Encrypt content</label>
                             </div>
                         </div>
+                    </div>
+                </div>
+                <div className="row clearfix">
+                    <div className="col-lg-offset-2 col-md-offset-2 col-sm-offset-4 col-xs-offset-5">
+                        <button type="submit" className="btn btn-info m-t-15 waves-effect">
+                            <i className="material-icons">create</i>
+                            <span>Create</span>
+                        </button>
                     </div>
                 </div>
             </form>
