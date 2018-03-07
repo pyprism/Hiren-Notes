@@ -4,14 +4,20 @@ from .models import NoteBook, Notes
 from django.http import HttpResponse, JsonResponse
 from django.core import serializers
 from .forms import NoteBookForm
+from django.shortcuts import get_list_or_404
 
 
 @login_required
-def notebook(request):
+def notebooks(request):
+    """
+    Returns all notebooks
+    :param request:
+    :return:
+    """
     if request.META.get('HTTP_ACCEPT').startswith("text/html"):
         return render(request, 'note/notebook.html')
     elif request.content_type == 'application/json':
-        notebooks = NoteBook.objects.all()  # TODO pagination
+        notebooks = NoteBook.objects.filter(user=request.user)  # TODO pagination
         data = serializers.serialize('json', notebooks)
         return HttpResponse(data, content_type='application/json')
 
@@ -32,9 +38,12 @@ def notebook_create(request):
             return HttpResponse("success")
         else:
             return HttpResponse("error")
-    if request.META.get('HTTP_ACCEPT').startswith("text/html"):
-        return render(request, 'note/notebook_create.html')
-    elif request.content_type == 'application/json':
-        pass
+    return render(request, 'note/notebook_create.html')
+
+
+@login_required
+def notebook_by_id(request, pk):
+    notes = get_list_or_404(NoteBook, pk=pk, user=request.user)
+    return render(request, 'note/notebook_by_id.html')
 
 
