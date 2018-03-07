@@ -4,14 +4,19 @@ class Notebooks extends React.Component {
 
     constructor(props){
         super(props);
+        this.state = {
+            loading: true,
+            data: ""
+        }
     }
 
     loadData() {
         $.ajax("/notebook/", {
             contentType: "application/json",
             success: function(data) {
-                console.log(data[0]['fields']["name"]);
-            },
+                this.setState({data: data});
+                this.setState({loading: false});
+            }.bind(this),
             error: function(data) {
                 console.error(data);
             }
@@ -19,42 +24,36 @@ class Notebooks extends React.Component {
     }
 
     componentDidMount(){
-       // this.loadData();
+        this.loadData();
     }
 
     bunny(){
-        $.ajax("/notebook/", {
-            contentType: "application/json",
-            success: function(data) {
-                //console.log(data[0]['fields']["name"]);
-                data.map((data, index) => {
-                    return(
-                        <div className="row clearfix" key={ data.id }>
-                            <div className="col-lg-4 col-md-4 col-sm-6 col-xs-12">
-                                <div className="card">
-                                    <div className="header">
-                                        <h2>
-                                            {data["fields"]["name"]}
-                                        </h2>
-                                    </div>
-                                    <div className="body">
-                                        Quis pharetra a pharetra fames blandit. Risus faucibus velit Risus imperdiet mattis neque volutpat, etiam lacinia netus dictum magnis per facilisi sociosqu. Volutpat. Ridiculus nostra.
-                                    </div>
-                                </div>
-                            </div>
+        return(this.state.data).map((data, index) => {
+            return (
+                <div className="col-lg-4 col-md-4 col-sm-6 col-xs-12" key={ data["pk"] }>
+                    <div className="card">
+                        <div className="header">
+                            <h2>
+                                <a href={"/notebook/" + data["pk"]  + "/"}>{data["fields"]["name"]}</a>
+                            </h2>
                         </div>
-                    )
-                })
-            },
-            error: function(data) {
-                console.error(data);
-            }
+                        <div className="body">
+                            <a href={"/notebook/" + data["pk"]  + "/"}>{data["fields"]["description"]}</a>
+                        </div>
+                    </div>
+                </div>
+            )
         });
     }
 
     render() {
+        if(this.state.loading){
+            return (
+                <div>Loading...</div>
+            )
+        }
         return (
-            <div>{this.bunny()}ssa</div>
+            <div>{this.bunny()}</div>
         );
     }
 }
