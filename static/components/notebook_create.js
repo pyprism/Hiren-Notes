@@ -1,5 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import swal from 'sweetalert2'
 
 
 class NotebookCreate extends React.Component {
@@ -58,7 +59,11 @@ class NotebookCreate extends React.Component {
                     "encrypted": this.state.encryption
                 },
                 success: function (data) {
-                    console.log(data);
+                    if(data === "success"){
+                        swal("Success", "New notebook has been created.", "success");
+                    } else {
+                        swal("Oops...", "Something went wrong!", "error");
+                    }
                 }
             });
         }
