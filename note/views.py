@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from .models import NoteBook, Notes
 from django.http import HttpResponse, JsonResponse
 from django.core import serializers
-from .forms import NoteBookForm
+from .forms import NoteBookForm, NoteForm
 from django.shortcuts import get_list_or_404, get_object_or_404
 
 
@@ -50,10 +50,35 @@ def notebook_by_id(request, pk):
     :return:
     """
     if request.META.get('HTTP_ACCEPT').startswith("text/html"):
-        return render(request, 'note/notebook_by_id.html')
+        return render(request, 'note/notebook_by_id.html', {'pk': pk})
     elif request.content_type == 'application/json':
         notebook = get_object_or_404(NoteBook, pk=pk, user=request.user)
         notes = Notes.objects.filter(note_book=notebook, user=request.user)
         data = serializers.serialize('json', notes)
         return HttpResponse(data, content_type='application/json')
+
+
+@login_required
+def note_create(request, pk):
+    """
+    Create new note
+    :param request:
+    :param pk: notebook pk
+    :return:
+    """
+    if request.method == 'POST':
+        notebook = get_object_or_404(NoteBook, pk=pk, user=request.user)
+        note_form = NoteForm(request.POST)
+        if note_form.is_valid():
+            note = note_form.save(commit=False)
+            note.user = request.user
+            note.note_book = notebook
+            note.save()
+            return HttpResponse("success")
+        else:
+            return HttpResponse(note_form.errors)
+    return render(request, 'note/note_create.html')
+
+
+
 
