@@ -25,6 +25,7 @@ script:
   - python manage.py test
   - coverage run --source=api manage.py test
   - coverage run --source=note manage.py test
+  - coverage run --source=base manage.py test
 
 after_success:
 - coveralls
