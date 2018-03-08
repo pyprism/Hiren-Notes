@@ -39,6 +39,12 @@ class SignupViewTest(TestCase):
 
     def setUp(self):
         self.c = Client()
+        self.user = Account.objects.create_user(username='hiren', password="xyz")
+
+    def test_logged_in_user_redirect_to_correct_view(self):
+        self.c.force_login(self.user)
+        response = self.c.get(reverse('signup'))
+        self.assertRedirects(response, reverse('secret_code'))
 
 
 class SecretViewTest(TestCase):
