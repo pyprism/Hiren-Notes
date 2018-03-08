@@ -35,3 +35,21 @@ class LoginViewTest(TestCase):
         self.assertTemplateUsed(response, 'base/login.html')
 
 
+class SignupViewTest(TestCase):
+
+    def setUp(self):
+        self.c = Client()
+
+
+class SecretViewTest(TestCase):
+
+    def setUp(self):
+        self.c = Client()
+        self.user = Account.objects.create_user(username='hiren', password="xyz")
+        self.c.force_login(self.user)
+
+    def test_view_returns_correct_template(self):
+        response = self.c.get(reverse('secret_code'))
+        self.assertTemplateUsed(response, 'base/secret_code.html')
+
+
