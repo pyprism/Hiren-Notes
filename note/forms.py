@@ -7,3 +7,9 @@ class NoteBookForm(ModelForm):
         model = NoteBook
         exclude = ('user',)
 
+
+class NoteForm(ModelForm):
+    class Meta:
+        model = Notes
+        exclude = ('user', 'note_book')
+
