@@ -1,10 +1,18 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-
-</body>
-</html>
+{% extends "base.html" %}
+{% block title %} Notes List {% endblock %}
+{% block content %}
+<section class="content">
+    <div class="container-fluid">
+        <div class="block-header">
+            <h2>Notes List  <a href="{% url 'notebook_create' %}"><button class="btn btn-info m-t-12 waves-effect pull-right">
+                <i class="material-icons">create</i>
+                <span>Create new note</span></button></a></h2>
+        </div>
+        <!-- Basic Card -->
+        <div class="row clearfix">
+            <div id="notebook_by_id"></div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+{% block script %} {% load staticfiles %} <script src="{% static 'js/bundles/notebook_by_id.js' %}"></script>{% endblock %}
