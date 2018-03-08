@@ -46,6 +46,12 @@ class SignupViewTest(TestCase):
         response = self.c.get(reverse('signup'))
         self.assertRedirects(response, reverse('secret_code'))
 
+    def test_signup_works(self):
+        response = self.c.post(reverse('signup'), {'username': "bunny", "password": "xyz"})
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, reverse('login'))
+        self.assertEqual(Account.objects.count(), 2)
+
 
 class SecretViewTest(TestCase):
 
