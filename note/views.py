@@ -4,7 +4,7 @@ from .models import NoteBook, Notes
 from django.http import HttpResponse, JsonResponse
 from django.core import serializers
 from .forms import NoteBookForm
-from django.shortcuts import get_list_or_404
+from django.shortcuts import get_list_or_404, get_object_or_404
 
 
 @login_required
@@ -43,7 +43,17 @@ def notebook_create(request):
 
 @login_required
 def notebook_by_id(request, pk):
-    notes = get_list_or_404(NoteBook, pk=pk, user=request.user)
-    return render(request, 'note/notebook_by_id.html')
-
+    """
+    Render notes list
+    :param request:
+    :param pk:
+    :return:
+    """
+    if request.META.get('HTTP_ACCEPT').startswith("text/html"):
+        return render(request, 'note/notebook_by_id.html')
+    elif request.content_type == 'application/json':
+        notebook = get_object_or_404(NoteBook, pk=pk, user=request.user)
+        notes = Notes.objects.filter(note_book=notebook, user=request.user)
+        data = serializers.serialize('json', notes)
+        return HttpResponse(data, content_type='application/json')
 
