@@ -1,3 +1,4 @@
 [run]
-omit = */*
-       *hiren/*
+source = api/
+         base/
+         notes/
