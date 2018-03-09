@@ -71,6 +71,10 @@ class SignupViewTest(TestCase):
 
         self.assertRedirects(response, reverse('signup'))
 
+    def test_view_returns_correct_template(self):
+        response = self.c.get(reverse('signup'))
+        self.assertTemplateUsed(response, 'base/signup.html')
+
 
 class SecretViewTest(TestCase):
 
