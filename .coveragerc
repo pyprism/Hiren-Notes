@@ -1,4 +1,5 @@
 [run]
 source = api/
          base/
-         notes/
+         note/
+         todo/
