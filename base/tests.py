@@ -39,6 +39,13 @@ class LoginViewTest(TestCase):
         response = self.c.get(reverse('login'))
         self.assertTemplateUsed(response, 'base/login.html')
 
+    def test_bad_auth(self):
+        response = self.c.post(reverse('login'), {'username': 'hiren', 'password': 'bad pass'}, follow=True)
+        message = list(response.context.get('messages'))[0]
+        self.assertEqual(message.message, 'Username/Password is not valid!')
+
+        self.assertRedirects(response, reverse('login'))
+
 
 class SignupViewTest(TestCase):
 
