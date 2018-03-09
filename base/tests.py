@@ -3,7 +3,7 @@ from django.test import TestCase, TransactionTestCase
 from django.contrib.auth.models import User
 from django.test import Client
 from . import views
-from .models import Account
+from .models import Account, Setting
 from freezegun import freeze_time
 from django.utils import timezone
 
@@ -74,6 +74,14 @@ class SignupViewTest(TestCase):
     def test_view_returns_correct_template(self):
         response = self.c.get(reverse('signup'))
         self.assertTemplateUsed(response, 'base/signup.html')
+
+    def test_signup_disabled(self):
+        Setting.objects.create(task='S', active=False)
+        response = self.c.post(reverse('signup'), {'username': "hiren3", "password": "xyz"}, follow=True)
+        message = list(response.context.get('messages'))[0]
+        self.assertEqual(message.message, 'Signup is disabled!')
+
+        self.assertRedirects(response, reverse('signup'))
 
 
 class SecretViewTest(TestCase):
