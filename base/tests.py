@@ -64,6 +64,13 @@ class SignupViewTest(TestCase):
         self.assertRedirects(response, reverse('login'))
         self.assertEqual(Account.objects.count(), 2)
 
+    def test_duplicate_username(self):
+        response = self.c.post(reverse('signup'), {'username': "hiren", "password": "xyz"}, follow=True)
+        message = list(response.context.get('messages'))[0]
+        self.assertEqual(message.message, 'Username is not available!')
+
+        self.assertRedirects(response, reverse('signup'))
+
 
 class SecretViewTest(TestCase):
 
