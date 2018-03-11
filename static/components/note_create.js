@@ -94,7 +94,7 @@ class NoteCreate extends React.Component {
                     <div className="col-lg-10 col-md-10 col-sm-8 col-xs-7">
                         <div className="form-group">
                             <div className="form-line">
-                                <input type="text" value={content} onChange={this.handleContentChange.bind(this)} className="form-control" placeholder="Type note"/>
+                                <textarea  value={content} onChange={this.handleContentChange.bind(this)} className="form-control" placeholder="Type note"/>
                             </div>
                         </div>
                     </div>
