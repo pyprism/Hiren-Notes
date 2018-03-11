@@ -1,8 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import swal from "sweetalert2";
-import "draft-js/dist/Draft";
-import "draftail/dist/draftail";
 
 
 class NoteCreate extends React.Component {
@@ -55,14 +53,15 @@ class NoteCreate extends React.Component {
                 },
                 url: window.location.pathname,
                 data: {
-                    "name": this.state.name,
-                    "description": this.state.description,
+                    "title": this.state.title,
+                    "content": this.state.content,
                     "encrypted": this.state.encryption
                 },
                 success: function (data) {
                     if(data === "success"){
                         swal("Success", "New note has been saved.", "success");
                     } else {
+                        console.error(data);
                         swal("Oops...", "Something went wrong!", "error");
                     }
                 }
