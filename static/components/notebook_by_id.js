@@ -14,7 +14,6 @@ class Notebooks extends React.Component {
         $.ajax(window.location.pathname, {
             contentType: "application/json",
             success: function(data) {
-                console.log(data);
                 this.setState({data: data});
                 this.setState({loading: false});
             }.bind(this),
@@ -35,11 +34,11 @@ class Notebooks extends React.Component {
                     <div className="card">
                         <div className="header">
                             <h2>
-                                <a href={"/note/" + data["pk"]  + "/"}>{data["fields"]["name"]}</a>
+                                <a href={"/note/" + data["pk"]  + "/"}>{data["fields"]["title"]}</a>
                             </h2>
                         </div>
                         <div className="body">
-                            <a href={"/note/" + data["pk"]  + "/"}>{data["fields"]["description"]}</a>
+                            {data["fields"]["content"]}
                         </div>
                     </div>
                 </div>
