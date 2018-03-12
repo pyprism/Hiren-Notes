@@ -23,4 +23,9 @@ class NotebooksViewTest(TestCase):
         response = self.c.get(reverse('notebook'))
         self.assertRedirects(response, '/?next=' + reverse('notebook'))
 
+    def test_view_returns_correct_template(self):
+        self.c.force_login(self.user)
+        response = self.c.get(reverse('notebook'), CONTENT_TYPE='text/plain')
+        self.assertTemplateUsed(response, 'note/notebook.html')
+
 
