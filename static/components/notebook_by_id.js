@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-class Notebooks extends React.Component {
+class NotebookById extends React.Component {
 
     constructor(props){
         super(props);
@@ -34,7 +34,7 @@ class Notebooks extends React.Component {
                     <div className="card">
                         <div className="header">
                             <h2>
-                                <a href={"/note/" + data["pk"]  + "/"}>{data["fields"]["title"]}</a>
+                                <a href={"/notebook/note/" + data["pk"]  + "/"}>{data["fields"]["title"]}</a>
                             </h2>
                         </div>
                         <div className="body">
@@ -57,4 +57,4 @@ class Notebooks extends React.Component {
         );
     }
 }
-ReactDOM.render(<Notebooks />, document.getElementById("notebook_by_id"));
+ReactDOM.render(<NotebookById />, document.getElementById("notebook_by_id"));
