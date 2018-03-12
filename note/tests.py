@@ -19,4 +19,8 @@ class NotebooksViewTest(TestCase):
         found = resolve(reverse('notebook'))
         self.assertEqual(found.func, views.notebooks)
 
+    def test_redirect_for_unauthenticated_user_works(self):
+        response = self.c.get(reverse('notebook'))
+        self.assertRedirects(response, '/?next=' + reverse('notebook'))
+
 
