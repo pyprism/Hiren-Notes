@@ -50,7 +50,7 @@ def notebook_by_id(request, pk):
     :return:
     """
     notebook = get_object_or_404(NoteBook, pk=pk, user=request.user)
-    if request.META.get('HTTP_ACCEPT').startswith("text/html"):
+    if request.content_type == 'text/plain':
         return render(request, 'note/notebook_by_id.html', {'pk': pk})
     elif request.content_type == 'application/json':
         notes = Notes.objects.filter(note_book=notebook, user=request.user)
@@ -89,7 +89,7 @@ def note_by_id(request, pk):
     :return:
     """
     note = get_object_or_404(Notes, pk=pk, user=request.user)
-    if request.META.get('HTTP_ACCEPT').startswith("text/html"):
+    if request.content_type == 'text/plain':
         return render(request, 'note/note_by_id.html', {'pk': pk})
     elif request.content_type == 'application/json':
         data = serializers.serialize('json', note)
