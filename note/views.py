@@ -14,7 +14,7 @@ def notebooks(request):
     :param request:
     :return:
     """
-    if request.META.get('HTTP_ACCEPT').startswith("text/html"):
+    if request.content_type == 'text/plain':
         return render(request, 'note/notebook.html')
     elif request.content_type == 'application/json':
         notebooks = NoteBook.objects.filter(user=request.user)  # TODO pagination
