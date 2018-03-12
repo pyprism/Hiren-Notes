@@ -49,10 +49,10 @@ def notebook_by_id(request, pk):
     :param pk:
     :return:
     """
+    notebook = get_object_or_404(NoteBook, pk=pk, user=request.user)
     if request.META.get('HTTP_ACCEPT').startswith("text/html"):
         return render(request, 'note/notebook_by_id.html', {'pk': pk})
     elif request.content_type == 'application/json':
-        notebook = get_object_or_404(NoteBook, pk=pk, user=request.user)
         notes = Notes.objects.filter(note_book=notebook, user=request.user)
         data = serializers.serialize('json', notes)
         return HttpResponse(data, content_type='application/json')
@@ -78,6 +78,22 @@ def note_create(request, pk):
         else:
             return HttpResponse(note_form.errors)
     return render(request, 'note/note_create.html')
+
+
+@login_required
+def note_by_id(request, pk):
+    """
+    Return note by id
+    :param request:
+    :param pk: note pk
+    :return:
+    """
+    note = get_object_or_404(Notes, pk=pk, user=request.user)
+    if request.META.get('HTTP_ACCEPT').startswith("text/html"):
+        return render(request, 'note/note_by_id.html', {'pk': pk})
+    elif request.content_type == 'application/json':
+        data = serializers.serialize('json', note)
+        return HttpResponse(data, content_type='application/json')
 
 
 
