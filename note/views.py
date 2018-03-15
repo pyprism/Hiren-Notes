@@ -88,10 +88,10 @@ def note_by_id(request, pk):
     :param pk: note pk
     :return:
     """
-    note = get_object_or_404(Notes, pk=pk, user=request.user)
     if request.content_type == 'text/plain':
         return render(request, 'note/note_by_id.html', {'pk': pk})
     elif request.content_type == 'application/json':
+        note = Notes.objects.filter(user=request.user, pk=pk)
         data = serializers.serialize('json', note)
         return HttpResponse(data, content_type='application/json')
 
