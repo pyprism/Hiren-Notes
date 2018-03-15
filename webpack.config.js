@@ -6,6 +6,7 @@ module.exports = {
         "notebook_by_id": "./static/components/notebook_by_id.js",
         "note_create": "./static/components/note_create.js",
         "note_by_id": "./static/components/note_by_id.js",
+        "note_edit": "./static/components/note_edit.js",
     },
     output: {
         path: path.resolve(__dirname, "static"),
