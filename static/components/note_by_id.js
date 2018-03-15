@@ -43,14 +43,14 @@ class NoteById extends React.Component{
                     <br/>
                     <div className="row clearfix">
                         <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                            <a href="#">
+                            <a href={"/notebook/note/"+ this.state.data[0]["pk"] + "/edit/"}>
                                 <button type="button" className="btn btn-info waves-effect">
                                     <i className="material-icons">edit</i>
                                     <span>Edit</span>
                                 </button>
                             </a>
 
-                            <a href={"/notebook/"+ this.state.data[0]["pk"] + "/delete/"}>
+                            <a href={"/notebook/note/"+ this.state.data[0]["pk"] + "/delete/"}>
                                 <button type="button" className="btn btn-danger waves-effect">
                                     <i className="material-icons">delete</i>
                                     <span>Delete</span>
