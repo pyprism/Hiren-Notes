@@ -111,5 +111,32 @@ def note_delete(request, pk):
     return redirect('notebook_by_id', pk=pk)
 
 
+@login_required
+def note_edit(request, pk):
+    """
+    Handle note editing
+    :param request:
+    :param pk:
+    :return:
+    """
+    if request.method == 'POST':
+        pk = request.POST.get('pk')
+        note = get_object_or_404(Notes, user=request.user, pk=pk)
+        note_form = NoteForm(request.POST, instance=note)
+        if note_form.is_valid():
+            note_form.save()
+            messages.success(request, "Note has been updated.")
+            return redirect("note_edit", pk=pk)
+        else:
+            messages.warning(request, note_form.errors)
+            return redirect("note_edit", pk=pk)
+    if request.content_type == 'text/plain':
+        return render(request, 'note/note_edit.html', {'pk': pk})
+    elif request.content_type == 'application/json':
+        note = Notes.objects.filter(user=request.user, pk=pk)
+        data = serializers.serialize('json', note)
+        return HttpResponse(data, content_type='application/json')
+
+
 
 
