@@ -5,6 +5,7 @@ from django.http import HttpResponse, JsonResponse
 from django.core import serializers
 from .forms import NoteBookForm, NoteForm
 from django.shortcuts import get_list_or_404, get_object_or_404
+from django.contrib import messages
 
 
 @login_required
@@ -94,6 +95,20 @@ def note_by_id(request, pk):
         note = Notes.objects.filter(user=request.user, pk=pk)
         data = serializers.serialize('json', note)
         return HttpResponse(data, content_type='application/json')
+
+
+@login_required
+def note_delete(request, pk):
+    """
+    Delete note by id
+    :param request:
+    :param pk:
+    :return:
+    """
+    note = get_object_or_404(Notes, pk=pk, user=request.user)
+    note.delete()
+    messages.success(request, 'Note has been deleted.')
+    return redirect('notebook_by_id', pk=pk)
 
 
 
