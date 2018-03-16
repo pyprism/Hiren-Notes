@@ -126,10 +126,9 @@ def note_edit(request, pk):
         if note_form.is_valid():
             note_form.save()
             messages.success(request, "Note has been updated.")
-            return redirect("note_edit", pk=pk)
         else:
             messages.warning(request, note_form.errors)
-            return redirect("note_edit", pk=pk)
+        return HttpResponse("ok")
     if request.content_type == 'text/plain':
         return render(request, 'note/note_edit.html', {'pk': pk})
     elif request.content_type == 'application/json':
