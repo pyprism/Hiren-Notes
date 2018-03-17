@@ -9,6 +9,7 @@ class NotebookCreate extends React.Component {
         super();
         this.state = {
             name: "",
+            iteration: "",
             description: "",
             encryption: false,
             success: false
@@ -25,6 +26,27 @@ class NotebookCreate extends React.Component {
 
     handleEncryptionChange(event){
         this.setState({encryption: !this.state.encryption});
+    }
+
+    range(){
+        return(
+            <div>
+                <div className="row clearfix">
+                    <div className="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
+                        <label>Iteration</label>
+                    </div>
+                    <div className="col-lg-10 col-md-10 col-sm-8 col-xs-7">
+                        <div className="form-group">
+                            <div className="form-group">
+                                <div className="form-line">
+                                    <input type="text" required value={name} onChange={this.handleNameChange.bind(this)} autoFocus className="form-control" placeholder="Type notebook name"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        )
     }
 
     handleSubmit(event){
