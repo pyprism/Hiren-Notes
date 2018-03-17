@@ -3,6 +3,15 @@
 {% block content %}
 <section class="content">
     <div class="container-fluid">
+        {% if messages %}
+        <div {%for message in messages %} class="alert alert-{{ message.tags }}" {% endfor %} role="alert">
+            <ul class="messages">
+                {% for message in messages %}
+                <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
         <div class="block-header">
             <h2>Notebooks  <a href="{% url 'notebook_create' %}"><button class="btn btn-info m-t-12 waves-effect pull-right">
                 <i class="material-icons">create</i>
