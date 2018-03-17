@@ -13,9 +13,20 @@
         </div>
         {% endif %}
         <div class="block-header">
-            <h2>Notes List  <a href="{% url 'note_create' pk=pk %}"><button class="btn btn-info m-t-12 waves-effect pull-right">
-                <i class="material-icons">create</i>
-                <span>Create new note</span></button></a></h2>
+            <h2>Notes List
+                <a href="{% url 'note_create' pk=pk %}">
+                    <button class="btn btn-info m-t-12 waves-effect pull-right">
+                        <i class="material-icons">create</i>
+                        <span>Create new note</span>
+                    </button>
+                </a>
+                <a href="{% url 'notebook_delete' pk=pk %}">
+                    <button class="btn btn-danger m-t-12 waves-effect pull-right">
+                        <i class="material-icons">delete_forever</i>
+                        <span>Delete notebook</span>
+                    </button>
+                </a>
+            </h2>
         </div>
         <!-- Basic Card -->
         <div class="row clearfix">
