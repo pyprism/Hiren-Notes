@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import swal from 'sweetalert2'
+import swal from "sweetalert2";
+import {Crypt} from "./utils/Crypt";
 
 
 class NotebookCreate extends React.Component {
@@ -9,7 +10,7 @@ class NotebookCreate extends React.Component {
         super();
         this.state = {
             name: "",
-            iteration: "",
+            iteration: 2000,
             description: "",
             encryption: false,
             success: false
@@ -24,11 +25,16 @@ class NotebookCreate extends React.Component {
         this.setState({description: event.target.value});
     }
 
-    handleEncryptionChange(event){
+    handleEncryptionChange(){
         this.setState({encryption: !this.state.encryption});
     }
 
-    range(){
+    handleIterationChange(event){
+        this.setState({iteration: event.target.value});
+    }
+
+    range(){ // form field
+        const {iteration} = this.state;
         return(
             <div>
                 <div className="row clearfix">
@@ -37,10 +43,8 @@ class NotebookCreate extends React.Component {
                     </div>
                     <div className="col-lg-10 col-md-10 col-sm-8 col-xs-7">
                         <div className="form-group">
-                            <div className="form-group">
-                                <div className="form-line">
-                                    <input type="text" required value={name} onChange={this.handleNameChange.bind(this)} autoFocus className="form-control" placeholder="Type notebook name"/>
-                                </div>
+                            <div className="form-line">
+                                <input type="number" required value={iteration} onChange={this.handleIterationChange.bind(this)} className="form-control" min="0"/>
                             </div>
                         </div>
                     </div>
@@ -88,6 +92,8 @@ class NotebookCreate extends React.Component {
                     }
                 }
             });
+        } else {
+
         }
     }
 
@@ -134,6 +140,7 @@ class NotebookCreate extends React.Component {
                         </div>
                     </div>
                 </div>
+                {encryption? this.range() : null}
                 <div className="row clearfix">
                     <div className="col-lg-offset-2 col-md-offset-2 col-sm-offset-4 col-xs-offset-5">
                         <button type="submit" className="btn btn-info m-t-15 waves-effect">
