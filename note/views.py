@@ -60,6 +60,22 @@ def notebook_by_id(request, pk):
 
 
 @login_required
+def notebook_delete(request, pk):
+    """
+    Handles notebook and related notes deletion
+    :param request:
+    :param pk:
+    :return:
+    """
+    notebook = get_object_or_404(NoteBook, pk=pk, user=request.user)
+    notes = Notes.objects.filter(note_book=notebook, user=request.user)
+    notes.delete()
+    notebook.delete()
+    messages.success(request, "Notebook and associate notes have been deleted")
+    return redirect("notebook")
+
+
+@login_required
 def note_create(request, pk):
     """
     Create new note
