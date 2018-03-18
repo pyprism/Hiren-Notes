@@ -1,7 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import swal from "sweetalert2";
-import {Crypt} from "./utils/Crypt";
+import Crypt from "./utils/Crypt";
+import worker from "workerize-loader!./worker";
 
 
 class NotebookCreate extends React.Component {
@@ -55,7 +56,7 @@ class NotebookCreate extends React.Component {
 
     handleSubmit(event){
         event.preventDefault();
-        let csrfcookie = function() {
+        let csrfcookie = function() {  // for django csrf protection
             let cookieValue = null,
                 name = "csrftoken";
             if (document.cookie && document.cookie !== "") {
@@ -70,6 +71,8 @@ class NotebookCreate extends React.Component {
             }
             return cookieValue;
         };
+
+
         if(!this.state.encryption){
             $.ajax({
                 type: "POST",
@@ -94,6 +97,14 @@ class NotebookCreate extends React.Component {
             });
         } else {
 
+            let  random = forge.random.getBytesSync(32),
+                _salt = forge.random.getBytesSync(128),
+                iteration = this.state.iteration,
+                iv = forge.util.bytesToHex(random),
+                key = forge.pkcs5.pbkdf2(sessionStorage.getItem('key'), _salt, iteration, 32);
+           async() => {
+               console.log(await workerize(Crypt.encrypt("xzxasasassas as as as as as ", key, random)));
+           }
         }
     }
 
