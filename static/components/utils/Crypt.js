@@ -13,9 +13,17 @@ export default class Crypt {
         decipher.start({iv: forge.util.hexToBytes(iv)});
         decipher.update(forge.util.createBuffer(forge.util.hexToBytes(encryptedHex)));
         let bunny = decipher.finish();  // if the secret key is invalid it returns false
-        if(!bunny) {
-            window.location.href("/secret/");
-        }
+        // if(!bunny) {
+        //     window.location.href("/secret/");
+        // }
         return decipher.output.data;
     }
 }
+
+
+self.addEventListener("message", function(e) {
+    // Send the message back.
+    self.postMessage("You said: " + e.data);
+    console.log(e.data);
+    self.close();
+}, false);
