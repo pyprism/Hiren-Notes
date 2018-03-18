@@ -1,6 +1,3 @@
-import workerize from "workerize/dist/workerize.m.js";
-
-
 export default class Crypt {
     static encrypt(text, key, iv) {
         let cipher = forge.cipher.createCipher('AES-CBC', key);
