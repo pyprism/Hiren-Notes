@@ -95,18 +95,7 @@ class NotebookCreate extends React.Component {
             });
         } else {
 
-            let  random = forge.random.getBytesSync(32),
-                _salt = forge.random.getBytesSync(128),
-                iteration = this.state.iteration,
-                iv = forge.util.bytesToHex(random),
-                key = forge.pkcs5.pbkdf2(sessionStorage.getItem('key'), _salt, iteration, 32),
-                worker = new Worker('utils/Crypt.js');
 
-            worker.postMessage({
-                "text": "hello",
-                "key": key,
-                "iv": iv
-            })
         }
     }
 
