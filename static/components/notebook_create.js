@@ -52,6 +52,15 @@ class NotebookCreate extends React.Component {
         )
     }
 
+    bin2string(array){
+        let result = "";
+        const length = array.length;
+        for(var i = 0; i < length; ++i){
+            result+= (String.fromCharCode(array[i]));
+        }
+        return result;
+    }
+
     handleSubmit(event){
         event.preventDefault();
         let csrfcookie = function() {  // for django csrf protection
@@ -95,7 +104,19 @@ class NotebookCreate extends React.Component {
             });
         } else {
 
+            openpgp.initWorker({ path:'/static/js/openpgp.worker.min.js' });
+            let options, encrypted;
+            options = {
+                data: this.state.name, // input as Uint8Array (or String)
+                passwords: ['secret stuff'],              // multiple passwords possible
+                armor: false                              // don't ASCII armor (for Uint8Array output)
+            };
 
+            openpgp.encrypt(options).then(function(ciphertext) {
+                encrypted = ciphertext.message.packets.write();// get raw encrypted packets as Uint8Array
+                let x =  this.bin2string(new TextDecoder("utf-8").decode(encrypted));
+                console.log(x);
+            }.bind(this));
         }
     }
 
