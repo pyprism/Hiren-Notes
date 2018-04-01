@@ -16,6 +16,7 @@ class Notebooks extends React.Component {
             success: function(data) {
                 this.setState({data: data});
                 this.setState({loading: false});
+                console.log(data);
             }.bind(this),
             error: function(data) {
                 console.error(data);
