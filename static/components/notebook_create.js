@@ -52,15 +52,6 @@ class NotebookCreate extends React.Component {
         )
     }
 
-    bin2string(array){
-        let result = "";
-        const length = array.length;
-        for(var i = 0; i < length; ++i){
-            result+= (String.fromCharCode(array[i]));
-        }
-        return result;
-    }
-
     handleSubmit(event){
         event.preventDefault();
         let csrfcookie = function() {  // for django csrf protection
@@ -107,16 +98,34 @@ class NotebookCreate extends React.Component {
             openpgp.initWorker({ path:'/static/js/openpgp.worker.min.js' });
             let options, encrypted;
             options = {
-                data: this.state.name, // input as Uint8Array (or String)
-                passwords: ['secret stuff'],              // multiple passwords possible
-                armor: false                              // don't ASCII armor (for Uint8Array output)
+                data: this.state.name,
+                passwords: ["secret stuff"],
+                armor: true,
+                show_comment: false
             };
 
             openpgp.encrypt(options).then(function(ciphertext) {
-                encrypted = ciphertext.message.packets.write();// get raw encrypted packets as Uint8Array
-                let x =  this.bin2string(new TextDecoder("utf-8").decode(encrypted));
-                console.log(x);
-            }.bind(this));
+                console.log(ciphertext['data']);
+                let x = ciphertext["data"];
+                // encrypted = ciphertext.message.packets.write();// get raw encrypted packets as Uint8Array
+                // console.log(ciphertext);
+                // let x = forge.util.bytesToHex(encrypted);
+                // console.log(x);
+                // let y = forge.util.hexToBytes(x);
+                // console.log(y);
+                // let z = forge.util.bytesToHex(y);
+                // console.log(y === z);
+                // console.log(z);
+                // console.log(x);
+                let y = {
+                    message: openpgp.message.readArmored(x),
+                    passwords: ["secret stuff"],
+                    format: "utf8"
+                };
+                openpgp.decrypt(y).then(function(plaintext) {
+                    console.log(plaintext.data);
+                });
+            });
         }
     }
 
