@@ -14,9 +14,45 @@ class Notebooks extends React.Component {
         $.ajax("/notebook/", {
             contentType: "application/json",
             success: function(data) {
-                this.setState({data: data});
-                this.setState({loading: false});
-                console.log(data);
+                let bunny = []
+                data.map((hiren, index) => {
+                    let nisha = {}
+                    if(hiren["fields"]["encrypted"]) {
+                        let name_options = {
+                            message: openpgp.message.readArmored(hiren["fields"]["name"]),
+                            passwords: [sessionStorage.getItem("key")],
+                            format: "utf8"
+                        }
+                        let description_options = {
+                            message: openpgp.message.readArmored(hiren["fields"]["description"]),
+                            passwords: [sessionStorage.getItem("key")],
+                            format: "utf8"
+                        }
+                        try {
+                            openpgp.decrypt(name_options).then(function(plaintext) {
+                                let name = plaintext.data;
+
+                                openpgp.decrypt(description_options).then(function(text) {
+                                    let description = text.data;
+
+                                    nisha["pk"] = hiren["pk"];
+                                    nisha["fields"] = {"name": name, "description": description};
+                                    bunny.push(nisha);
+                                    console.log(this.state.data);
+                                }.bind(this))
+                            }.bind(this))
+                        } catch (e) {
+                            console.error(e);
+                        }
+                    } else {
+                        nisha["pk"] = hiren["pk"];
+                        nisha["fields"] = {"name": hiren["fields"]["name"], "description": hiren["fields"]["description"]};
+                        bunny.push(nisha);
+                    }
+                })
+                //this.setState({data: bunny});
+                //console.log(this.state.data);
+                //this.setState({loading: false});
             }.bind(this),
             error: function(data) {
                 console.error(data);
