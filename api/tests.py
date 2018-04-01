@@ -24,7 +24,7 @@ class NotesViewTest(TransactionTestCase):
         self.TEST_UUID = '2e49f1f0-e17b-4876-9beb-4d9b539683d8'
         with patch.object(uuid, 'uuid4', side_effect=self.TEST_UUID):
             self.notebook = NoteBook.objects.create(user=self.user, name="bunny")
-            Notes.objects.create(note_book=self.notebook, user=self.user, iv="random", content="test content")
+            Notes.objects.create(note_book=self.notebook, user=self.user, content="test content")
 
     def test_login_works(self):
         response = self.client.get('/api/notes/')
