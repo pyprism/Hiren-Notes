@@ -9,7 +9,6 @@ class NotebookCreate extends React.Component {
         super();
         this.state = {
             name: "",
-            iteration: 2000,
             description: "",
             encryption: false,
             success: false
@@ -26,30 +25,6 @@ class NotebookCreate extends React.Component {
 
     handleEncryptionChange(){
         this.setState({encryption: !this.state.encryption});
-    }
-
-    handleIterationChange(event){
-        this.setState({iteration: event.target.value});
-    }
-
-    range(){ // form field
-        const {iteration} = this.state;
-        return(
-            <div>
-                <div className="row clearfix">
-                    <div className="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
-                        <label>Iteration</label>
-                    </div>
-                    <div className="col-lg-10 col-md-10 col-sm-8 col-xs-7">
-                        <div className="form-group">
-                            <div className="form-line">
-                                <input type="number" required value={iteration} onChange={this.handleIterationChange.bind(this)} className="form-control" min="0"/>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        )
     }
 
     handleSubmit(event){
@@ -94,37 +69,52 @@ class NotebookCreate extends React.Component {
                 }
             });
         } else {
-
-            openpgp.initWorker({ path:'/static/js/openpgp.worker.min.js' });
-            let options, encrypted;
-            options = {
+            openpgp.initWorker({ path:"/static/js/openpgp.worker.min.js" });
+            let name_options = {
                 data: this.state.name,
-                passwords: ["secret stuff"],
+                passwords: [sessionStorage.getItem("key")],
                 armor: true,
-                show_comment: false
+            };
+            let description_options = {
+                data: this.state.description,
+                passwords: [sessionStorage.getItem("key")],
+                armor: true,
             };
 
-            openpgp.encrypt(options).then(function(ciphertext) {
-                console.log(ciphertext['data']);
-                let x = ciphertext["data"];
-                // encrypted = ciphertext.message.packets.write();// get raw encrypted packets as Uint8Array
-                // console.log(ciphertext);
-                // let x = forge.util.bytesToHex(encrypted);
-                // console.log(x);
-                // let y = forge.util.hexToBytes(x);
-                // console.log(y);
-                // let z = forge.util.bytesToHex(y);
-                // console.log(y === z);
-                // console.log(z);
-                // console.log(x);
-                let y = {
-                    message: openpgp.message.readArmored(x),
-                    passwords: ["secret stuff"],
-                    format: "utf8"
-                };
-                openpgp.decrypt(y).then(function(plaintext) {
-                    console.log(plaintext.data);
-                });
+            openpgp.encrypt(name_options).then(function(ciphertext) {
+                let name = ciphertext["data"];
+                // let y = {
+                //     message: openpgp.message.readArmored(x),
+                //     passwords: ["secret stuff"],
+                //     format: "utf8"
+                // };
+                // openpgp.decrypt(y).then(function(plaintext) {
+                //     console.log(plaintext.data);
+                // });
+                openpgp.encrypt(description_options).then(function(cipher) {
+                    let description = cipher["data"];
+                    $.ajax({
+                        type: "POST",
+                        beforeSend: function(request, settings) {
+                            if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
+                                request.setRequestHeader("X-CSRFToken", csrfcookie());
+                            }
+                        },
+                        url: "/notebook/create/",
+                        data: {
+                            "name": name,
+                            "description": description,
+                            "encrypted": true
+                        },
+                        success: function (data) {
+                            if(data === "success"){
+                                swal("Success", "New encrypted notebook has been created.", "success");
+                            } else {
+                                swal("Oops...", "Something went wrong!", "error");
+                            }
+                        }
+                    });
+                })
             });
         }
     }
@@ -172,7 +162,6 @@ class NotebookCreate extends React.Component {
                         </div>
                     </div>
                 </div>
-                {encryption? this.range() : null}
                 <div className="row clearfix">
                     <div className="col-lg-offset-2 col-md-offset-2 col-sm-offset-4 col-xs-offset-5">
                         <button type="submit" className="btn btn-info m-t-15 waves-effect">
