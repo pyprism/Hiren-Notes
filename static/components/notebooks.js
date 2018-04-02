@@ -1,5 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import swal from "sweetalert2";
 class Notebooks extends React.Component {
 
     constructor(props){
@@ -14,20 +15,20 @@ class Notebooks extends React.Component {
         $.ajax("/notebook/", {
             contentType: "application/json",
             success: function(data) {
-                let bunny = []
+                let bunny = [];
                 data.map((hiren, index) => {
-                    let nisha = {}
+                    let nisha = {};
                     if(hiren["fields"]["encrypted"]) {
                         let name_options = {
                             message: openpgp.message.readArmored(hiren["fields"]["name"]),
                             passwords: [sessionStorage.getItem("key")],
                             format: "utf8"
-                        }
+                        };
                         let description_options = {
                             message: openpgp.message.readArmored(hiren["fields"]["description"]),
                             passwords: [sessionStorage.getItem("key")],
                             format: "utf8"
-                        }
+                        };
                         try {
                             openpgp.decrypt(name_options).then(function(plaintext) {
                                 let name = plaintext.data;
@@ -49,10 +50,10 @@ class Notebooks extends React.Component {
                         nisha["fields"] = {"name": hiren["fields"]["name"], "description": hiren["fields"]["description"]};
                         bunny.push(nisha);
                     }
-                })
-                //this.setState({data: bunny});
-                //console.log(this.state.data);
-                //this.setState({loading: false});
+                });
+                this.setState({data: bunny});
+                console.log("sasas");
+                console.log(this.state.data);
             }.bind(this),
             error: function(data) {
                 console.error(data);
@@ -62,6 +63,7 @@ class Notebooks extends React.Component {
 
     componentDidMount(){
         this.loadData();
+        this.setState({loading: false});
     }
 
     bunny(){
