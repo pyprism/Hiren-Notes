@@ -1,6 +1,9 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import swal from "sweetalert2";
+import "regenerator-runtime/runtime";
+
+
 class Notebooks extends React.Component {
 
     constructor(props){
@@ -12,13 +15,14 @@ class Notebooks extends React.Component {
     }
 
     loadData() {
+
         $.ajax("/notebook/", {
             contentType: "application/json",
-            success: function(data) {
+            success: function (data) {
                 let bunny = [];
                 data.map((hiren, index) => {
                     let nisha = {};
-                    if(hiren["fields"]["encrypted"]) {
+                    if (hiren["fields"]["encrypted"]) {
                         let name_options = {
                             message: openpgp.message.readArmored(hiren["fields"]["name"]),
                             passwords: [sessionStorage.getItem("key")],
@@ -29,25 +33,33 @@ class Notebooks extends React.Component {
                             passwords: [sessionStorage.getItem("key")],
                             format: "utf8"
                         };
-                        try {
-                            openpgp.decrypt(name_options).then(function(plaintext) {
-                                let name = plaintext.data;
-
-                                openpgp.decrypt(description_options).then(function(text) {
-                                    let description = text.data;
-
-                                    nisha["pk"] = hiren["pk"];
-                                    nisha["fields"] = {"name": name, "description": description};
-                                    bunny.push(nisha);
-                                    console.log(this.state.data);
-                                }.bind(this))
-                            }.bind(this))
-                        } catch (e) {
-                            console.error(e);
+                        // try {
+                        //     openpgp.decrypt(name_options).then(function(plaintext) {
+                        //         let name = plaintext.data;
+                        //
+                        //         openpgp.decrypt(description_options).then(function(text) {
+                        //             let description = text.data;
+                        //
+                        //             nisha["pk"] = hiren["pk"];
+                        //             nisha["fields"] = {"name": name, "description": description};
+                        //             bunny.push(nisha);
+                        //             console.log(this.state.data);
+                        //         }.bind(this))
+                        //     }.bind(this))
+                        // } catch (e) {
+                        //     console.error(e);
+                        // }
+                        async () => {
+                            let x = await openpgp.decrypt(name_options);
+                            console.log("Sasasasasdfsdvdf");
+                            console.log(x);
                         }
                     } else {
                         nisha["pk"] = hiren["pk"];
-                        nisha["fields"] = {"name": hiren["fields"]["name"], "description": hiren["fields"]["description"]};
+                        nisha["fields"] = {
+                            "name": hiren["fields"]["name"],
+                            "description": hiren["fields"]["description"]
+                        };
                         bunny.push(nisha);
                     }
                 });
@@ -55,7 +67,7 @@ class Notebooks extends React.Component {
                 console.log("sasas");
                 console.log(this.state.data);
             }.bind(this),
-            error: function(data) {
+            error: function (data) {
                 console.error(data);
             }
         });
@@ -63,7 +75,7 @@ class Notebooks extends React.Component {
 
     componentDidMount(){
         this.loadData();
-        this.setState({loading: false});
+        //this.setState({loading: false});
     }
 
     bunny(){
