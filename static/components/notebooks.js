@@ -14,6 +14,21 @@ class Notebooks extends React.Component {
         }
     }
 
+    async pgp(name, description) {
+        let name_options = {
+            message: openpgp.message.readArmored(name),
+            passwords: [sessionStorage.getItem("key")],
+            format: "utf8"
+        };
+        let description_options = {
+            message: openpgp.message.readArmored(description),
+            passwords: [sessionStorage.getItem("key")],
+            format: "utf8"
+        };
+
+        return await openpgp.decrypt(name_options);
+    }
+
     loadData() {
 
         $.ajax("/notebook/", {
@@ -49,11 +64,11 @@ class Notebooks extends React.Component {
                         // } catch (e) {
                         //     console.error(e);
                         // }
-                        async () => {
-                            let x = await openpgp.decrypt(name_options);
-                            console.log("Sasasasasdfsdvdf");
-                            console.log(x);
-                        }
+                        // async () => {
+                        //     let x = await openpgp.decrypt(name_options);
+                        //     console.log("Sasasasasdfsdvdf");
+                        //     console.log(x);
+                        // }
                     } else {
                         nisha["pk"] = hiren["pk"];
                         nisha["fields"] = {
@@ -82,30 +97,30 @@ class Notebooks extends React.Component {
         return(this.state.data).map((data, index) => {
             return (
                 <div className="col-lg-4 col-md-4 col-sm-6 col-xs-12" key={ data["pk"] }>
-                    <div className="card">
-                        <div className="header">
-                            <h2>
-                                <a href={"/notebook/" + data["pk"]  + "/"}>{data["fields"]["name"]}</a>
-                            </h2>
-                        </div>
-                        <div className="body">
-                            <a href={"/notebook/" + data["pk"]  + "/"}>{data["fields"]["description"]}</a>
-                        </div>
-                    </div>
+                <div className="card">
+                <div className="header">
+                <h2>
+                <a href={"/notebook/" + data["pk"]  + "/"}>{data["fields"]["name"]}</a>
+                </h2>
                 </div>
-            )
-        });
-    }
-
-    render() {
-        if(this.state.loading){
-            return (
-                <div>Loading...</div>
-            )
+                <div className="body">
+                <a href={"/notebook/" + data["pk"]  + "/"}>{data["fields"]["description"]}</a>
+                </div>
+                </div>
+                </div>
+                )
+            });
         }
-        return (
+
+        render() {
+            if(this.state.loading){
+                return (
+                <div>Loading...</div>
+                )
+            }
+            return (
             <div>{this.bunny()}</div>
-        );
+            );
+        }
     }
-}
-ReactDOM.render(<Notebooks />, document.getElementById("notebooks"));
+    ReactDOM.render(<Notebooks />, document.getElementById("notebooks"));
