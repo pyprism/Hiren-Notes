@@ -67,6 +67,11 @@ class Notebooks extends React.Component {
     }
 
     bunny(){
+        if(!this.state.data.length) {
+            return(
+                <div className="text-center">Notebook list is empty, create a new notebook.</div>
+            )
+        }
         return(this.state.data).map((data, index) => {
             return (
                 <div className="col-lg-4 col-md-4 col-sm-6 col-xs-12" key={ data["pk"] }>
