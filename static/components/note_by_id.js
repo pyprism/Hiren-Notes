@@ -105,7 +105,7 @@ class NoteById extends React.Component{
     render() {
         if(this.state.loading){
             return (
-                <div>Loading...</div>
+                <div className="text-center">Loading and decrypting note...</div>
             )
         }
         return (
