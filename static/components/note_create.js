@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import swal from "sweetalert2";
-
+import "regenerator-runtime/runtime";
 
 class NoteCreate extends React.Component {
 
@@ -26,7 +26,7 @@ class NoteCreate extends React.Component {
         this.setState({encryption: !this.state.encryption});
     }
 
-    handleSubmit(event){
+    async handleSubmit(event){
         event.preventDefault();
         let csrfcookie = function() {
             let cookieValue = null,
@@ -59,12 +59,52 @@ class NoteCreate extends React.Component {
                 },
                 success: function (data) {
                     if(data === "success"){
+                        this.setState({title: "", content: ""});
                         swal("Success", "New note has been saved.", "success");
                     } else {
                         console.error(data);
                         swal("Oops...", "Something went wrong!", "error");
                     }
-                }
+                }.bind(this)
+            });
+        } else {
+            openpgp.initWorker({ path:"/static/js/openpgp.worker.min.js" });
+            let title_options = {
+                data: this.state.title,
+                passwords: [sessionStorage.getItem("key")],
+                armor: true,
+            };
+            let content_options = {
+                data: this.state.content,
+                passwords: [sessionStorage.getItem("key")],
+                armor: true,
+            };
+
+            let title = await openpgp.encrypt(title_options);
+            let content = await openpgp.encrypt(content_options);
+
+            $.ajax({
+                type: "POST",
+                beforeSend: function(request, settings) {
+                    if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
+                        request.setRequestHeader("X-CSRFToken", csrfcookie());
+                    }
+                },
+                url: window.location.pathname,
+                data: {
+                    "title": title["data"],
+                    "content": content["data"],
+                    "encrypted": true
+                },
+                success: function (data) {
+                    if(data === "success"){
+                        this.setState({title: "", content: ""});
+                        swal("Success", "New encrypted note has been saved.", "success");
+                    } else {
+                        console.error(data);
+                        swal("Oops...", "Something went wrong!", "error");
+                    }
+                }.bind(this)
             });
         }
     }
