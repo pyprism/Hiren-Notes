@@ -22,6 +22,7 @@ class Notebooks extends React.Component {
                 Promise.all(data.map(async (hiren, index) => {
                         let nisha = {};
                         if (hiren["fields"]["encrypted"]) {
+                            openpgp.initWorker({ path:"/static/js/openpgp.worker.min.js" });
                             let data = {};
                             let name_options = {
                                 message: openpgp.message.readArmored(hiren["fields"]["name"]),
@@ -93,7 +94,7 @@ class Notebooks extends React.Component {
     render() {
         if(this.state.loading){
             return (
-                <div>Loading...</div>
+                <div className="text-center">Loading and decrypting notebooks...</div>
             )
         }
         return (
