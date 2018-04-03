@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import swal from "sweetalert2";
+import "regenerator-runtime/runtime";
 
 
 class NoteEdit extends React.Component {
@@ -60,7 +61,7 @@ class NoteEdit extends React.Component {
                     "pk": this.state.pk
                 },
                 success: function (data) {
-                   if(data === "ok"){
+                    if(data === "ok"){
                         window.location.replace(window.location.pathname);
                     } else {
                         console.error(data);
@@ -75,11 +76,49 @@ class NoteEdit extends React.Component {
         $.ajax(window.location.pathname, {
             contentType: "application/json",
             success: function(data) {
-                this.setState({title: data[0]["fields"]["title"]});
-                this.setState({content: data[0]["fields"]["content"]});
-                this.setState({encryption: data[0]["fields"]["encryption"]});
-                this.setState({pk: data[0]["pk"]});
-                this.setState({loading: false});
+                let bunny = [];
+                Promise.all(data.map(async (hiren, index) => {
+                        let nisha = {};
+                        if (hiren["fields"]["encrypted"]) {
+                            openpgp.initWorker({ path:"/static/js/openpgp.worker.min.js" });
+                            let data = {};
+                            let title_options = {
+                                message: openpgp.message.readArmored(hiren["fields"]["title"]),
+                                passwords: [sessionStorage.getItem("key")],
+                                format: "utf8"
+                            };
+                            let content_options = {
+                                message: openpgp.message.readArmored(hiren["fields"]["content"]),
+                                passwords: [sessionStorage.getItem("key")],
+                                format: "utf8"
+                            };
+                            let title = await openpgp.decrypt(title_options);
+                            let content = await openpgp.decrypt(content_options);
+                            data["pk"] = hiren["pk"];
+                            data["fields"] = {"title": title.data, "content": content.data, encryption: true};
+                            bunny.push(data);
+                        } else {
+                            nisha["pk"] = hiren["pk"];
+                            nisha["fields"] = {
+                                "title": hiren["fields"]["title"],
+                                "content": hiren["fields"]["content"],
+                                "encryption": false
+                            };
+                            bunny.push(nisha);
+                        }
+                    })
+                ).then(() => {
+                    this.setState({
+                        title: bunny[0]["fields"]["title"], content: bunny[0]["fields"]["content"],
+                        encryption: bunny[0]["fields"]["encryption"], pk: bunny[0]["pk"]
+                    });
+                    this.setState({loading: false});
+                }).catch(x => {
+                    console.error(x);
+                    swal("Oops...", "Secret key is not correct!", "error").then(() => {
+                        window.location.replace("/secret/");
+                    });
+                });
             }.bind(this),
             error: function(data) {
                 console.error(data);
@@ -96,7 +135,7 @@ class NoteEdit extends React.Component {
         const {title, content, encryption} = this.state;
         if(this.state.loading){
             return (
-                <div>Loading...</div>
+                <div className="text-center">Loading and decrypting note...</div>
             )
         }
         return(
