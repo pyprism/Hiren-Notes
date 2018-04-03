@@ -62,11 +62,12 @@ class NotebookCreate extends React.Component {
                 },
                 success: function (data) {
                     if(data === "success"){
+                        this.setState({name: "", description: ""});
                         swal("Success", "New notebook has been created.", "success");
                     } else {
                         swal("Oops...", "Something went wrong!", "error");
                     }
-                }
+                }.bind(this)
             });
         } else {
             openpgp.initWorker({ path:"/static/js/openpgp.worker.min.js" });
@@ -100,11 +101,12 @@ class NotebookCreate extends React.Component {
                         },
                         success: function (data) {
                             if(data === "success"){
+                                this.setState({name: "", description: ""});
                                 swal("Success", "New encrypted notebook has been created.", "success");
                             } else {
                                 swal("Oops...", "Something went wrong!", "error");
                             }
-                        }
+                        }.bind(this)
                     });
                 })
             });
