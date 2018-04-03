@@ -95,7 +95,7 @@ class NotebookById extends React.Component {
     render() {
         if(this.state.loading){
             return (
-                <div className="text-center">Loading...</div>
+                <div className="text-center">Loading and decrypting notes...</div>
             )
         }
         return (
