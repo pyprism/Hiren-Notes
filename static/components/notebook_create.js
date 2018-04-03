@@ -83,14 +83,6 @@ class NotebookCreate extends React.Component {
 
             openpgp.encrypt(name_options).then(function(ciphertext) {
                 let name = ciphertext["data"];
-                // let y = {
-                //     message: openpgp.message.readArmored(x),
-                //     passwords: ["secret stuff"],
-                //     format: "utf8"
-                // };
-                // openpgp.decrypt(y).then(function(plaintext) {
-                //     console.log(plaintext.data);
-                // });
                 openpgp.encrypt(description_options).then(function(cipher) {
                     let description = cipher["data"];
                     $.ajax({
