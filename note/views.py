@@ -124,7 +124,7 @@ def note_delete(request, pk):
     note = get_object_or_404(Notes, pk=pk, user=request.user)
     note.delete()
     messages.success(request, 'Note has been deleted.')
-    return redirect('notebook_by_id', pk=pk)
+    return redirect('notebook')
 
 
 @login_required
