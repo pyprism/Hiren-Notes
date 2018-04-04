@@ -6,7 +6,7 @@ import uuid
 class NoteBook(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.TextField()
-    description = models.TextField()
+    description = models.TextField(blank=True)
     encrypted = models.BooleanField(default=False)
     unique_id = models.UUIDField(default=uuid.uuid4, editable=False)
     created_at = models.DateTimeField(auto_now_add=True)
