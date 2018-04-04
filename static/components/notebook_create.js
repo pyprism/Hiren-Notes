@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import swal from "sweetalert2";
+import "regenerator-runtime/runtime";
 
 
 class NotebookCreate extends React.Component {
@@ -27,7 +28,7 @@ class NotebookCreate extends React.Component {
         this.setState({encryption: !this.state.encryption});
     }
 
-    handleSubmit(event){
+    async handleSubmit(event){
         event.preventDefault();
         let csrfcookie = function() {  // for django csrf protection
             let cookieValue = null,
@@ -82,33 +83,29 @@ class NotebookCreate extends React.Component {
                 armor: true,
             };
 
-            openpgp.encrypt(name_options).then(function(ciphertext) {
-                let name = ciphertext["data"];
-                openpgp.encrypt(description_options).then(function(cipher) {
-                    let description = cipher["data"];
-                    $.ajax({
-                        type: "POST",
-                        beforeSend: function(request, settings) {
-                            if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
-                                request.setRequestHeader("X-CSRFToken", csrfcookie());
-                            }
-                        },
-                        url: "/notebook/create/",
-                        data: {
-                            "name": name,
-                            "description": description,
-                            "encrypted": true
-                        },
-                        success: function (data) {
-                            if(data === "success"){
-                                this.setState({name: "", description: ""});
-                                swal("Success", "New encrypted notebook has been created.", "success");
-                            } else {
-                                swal("Oops...", "Something went wrong!", "error");
-                            }
-                        }.bind(this)
-                    });
-                })
+            let name = await openpgp.encrypt(name_options);
+            let description = await openpgp.encrypt(description_options);
+            $.ajax({
+                type: "POST",
+                beforeSend: function(request, settings) {
+                    if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
+                        request.setRequestHeader("X-CSRFToken", csrfcookie());
+                    }
+                },
+                url: "/notebook/create/",
+                data: {
+                    "name": name["data"],
+                    "description": description["data"],
+                    "encrypted": true
+                },
+                success: function (data) {
+                    if(data === "success"){
+                        this.setState({name: "", description: ""});
+                        swal("Success", "New encrypted notebook has been created.", "success");
+                    } else {
+                        swal("Oops...", "Something went wrong!", "error");
+                    }
+                }.bind(this)
             });
         }
     }
