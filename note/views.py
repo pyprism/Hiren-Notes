@@ -15,12 +15,11 @@ def notebooks(request):
     :param request:
     :return:
     """
-    if request.content_type == 'text/plain':
-        return render(request, 'note/notebook.html')
-    elif request.content_type == 'application/json':
+    if request.content_type == 'application/json':
         notebooks = NoteBook.objects.filter(user=request.user)  # TODO pagination
         data = serializers.serialize('json', notebooks)
         return HttpResponse(data, content_type='application/json')
+    return render(request, 'note/notebook.html')
 
 
 @login_required
