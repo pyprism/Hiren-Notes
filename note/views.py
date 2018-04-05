@@ -50,12 +50,11 @@ def notebook_by_id(request, pk):
     :return:
     """
     notebook = get_object_or_404(NoteBook, pk=pk, user=request.user)
-    if request.content_type == 'text/plain':
-        return render(request, 'note/notebook_by_id.html', {'pk': pk})
-    elif request.content_type == 'application/json':
+    if request.content_type == 'application/json':
         notes = Notes.objects.filter(note_book=notebook, user=request.user)
         data = serializers.serialize('json', notes)
         return HttpResponse(data, content_type='application/json')
+    return render(request, 'note/notebook_by_id.html', {'pk': pk})
 
 
 @login_required
@@ -104,12 +103,11 @@ def note_by_id(request, pk):
     :param pk: note pk
     :return:
     """
-    if request.content_type == 'text/plain':
-        return render(request, 'note/note_by_id.html', {'pk': pk})
-    elif request.content_type == 'application/json':
+    if request.content_type == 'application/json':
         note = Notes.objects.filter(user=request.user, pk=pk)
         data = serializers.serialize('json', note)
         return HttpResponse(data, content_type='application/json')
+    return render(request, 'note/note_by_id.html', {'pk': pk})
 
 
 @login_required
@@ -144,12 +142,11 @@ def note_edit(request, pk):
         else:
             messages.warning(request, note_form.errors)
         return HttpResponse("ok")
-    if request.content_type == 'text/plain':
-        return render(request, 'note/note_edit.html', {'pk': pk})
-    elif request.content_type == 'application/json':
+    if request.content_type == 'application/json':
         note = Notes.objects.filter(user=request.user, pk=pk)
         data = serializers.serialize('json', note)
         return HttpResponse(data, content_type='application/json')
+    return render(request, 'note/note_edit.html', {'pk': pk})
 
 
 
