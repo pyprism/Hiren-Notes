@@ -62,4 +62,9 @@ def secret_code(request):
     return render(request, 'base/secret_code.html')
 
 
+@login_required
+def settings(request):
+    return render(request, 'base/settings.html')
+
+
 
