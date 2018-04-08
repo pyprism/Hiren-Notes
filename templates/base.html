@@ -77,6 +77,12 @@
                         <span>Notebook</span>
                     </a>
                 </li>
+                <li {% if request.resolver_match.url_name == 'settings' %} class="active" {% endif %}>
+                    <a href="{% url 'settings' %}">
+                        <i class="material-icons">settings</i>
+                        <span>settings</span>
+                    </a>
+                </li>
                 <li>
                     <a href="{% url 'logout' %}">
                         <i class="material-icons">keyboard_arrow_right</i>
