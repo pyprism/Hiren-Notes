@@ -5,6 +5,7 @@ from django.contrib import auth
 from django.contrib import messages
 from django.db.utils import IntegrityError
 from .models import Account, Setting
+from django.shortcuts import get_object_or_404
 
 
 def login(request):
@@ -64,7 +65,9 @@ def secret_code(request):
 
 @login_required
 def settings(request):
-    return render(request, 'base/settings.html')
+    users = Account.objects.all()
+    sign_up, created = Setting.objects.get_or_create(task='S')
+    return render(request, 'base/settings.html', {'users': users, 'signup': sign_up})
 
 
 @login_required
@@ -87,6 +90,37 @@ def create_user(request):
             messages.success(request, 'Account created successfully!')
             return redirect('create_user')
         return render(request, 'base/create_user.html')
+
+
+@login_required
+def signup_settings(request):
+    if request.user.is_admin:
+        if request.method == 'POST':
+            sign_up = Setting.objects.get(task='S')
+            if request.POST.get('enable'):
+                sign_up.active = False
+            elif request.POST.get('disable'):
+                sign_up.active = True
+            sign_up.save()
+            return redirect('settings')
+
+
+@login_required
+def update_user(request, username):
+    """
+    update password
+    :param request:
+    :param username:
+    :return:
+    """
+    if request.user.is_admin:
+        if request.method == 'POST':
+            user = get_object_or_404(Account, username=username)
+            user.set_password(request.POST.get('password'))
+            user.save()
+            messages.success(request, 'Password updated.')
+            return redirect('update_user', username=username)
+        return render(request, 'base/update_user.html')
 
 
 
