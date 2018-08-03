@@ -1,5 +1,4 @@
 from django.urls import path
-from django.contrib.auth.views import logout
 from . import views
 
 urlpatterns = [
@@ -10,6 +9,6 @@ urlpatterns = [
     path('user/<str:username>/', views.update_user, name='update_user'),
     path('user/', views.create_user, name='create_user'),
     path('secret/', views.secret_code, name='secret_code'),
-    path('logout/', logout, {'next_page': '/'}, name='logout'),
+    path('logout/', views.logout, name='logout'),
 ]
 
