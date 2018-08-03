@@ -6,6 +6,7 @@ from django.contrib import messages
 from django.db.utils import IntegrityError
 from .models import Account, Setting
 from django.shortcuts import get_object_or_404
+from django.contrib.auth import logout as fuckoff
 
 
 def login(request):
@@ -123,4 +124,12 @@ def update_user(request, username):
         return render(request, 'base/update_user.html')
 
 
+def logout(request):
+    """
+    fuck off and logout
+    :param request:
+    :return:
+    """
+    fuckoff(request)
+    return redirect("login")
 
