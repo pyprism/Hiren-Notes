@@ -7,7 +7,7 @@ django-cors-headers==2.4.0
 django-debug-toolbar==1.10.1
 djangorestframework==3.8.2
 freezegun==0.3.10
-funcy==1.10.3
+funcy==1.11
 psycopg2==2.7.5
 python-dateutil==2.7.3
 pytz==2018.5
