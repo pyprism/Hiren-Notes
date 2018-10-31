@@ -9,7 +9,7 @@ djangorestframework==3.9.0
 freezegun==0.3.11
 funcy==1.11
 psycopg2==2.7.5
-python-dateutil==2.7.3
+python-dateutil==2.7.5
 pytz==2018.7
 raven==6.9.0
 rcssmin==1.0.6
