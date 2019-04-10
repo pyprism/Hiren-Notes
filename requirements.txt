@@ -11,7 +11,7 @@ funcy==1.11
 python-dateutil==2.8.0
 psycopg2==2.7.7
 raven==6.10.0
-pytz==2018.9
+pytz==2019.1
 rcssmin==1.0.6
 redis==3.2.1
 rjsmin==1.0.12
